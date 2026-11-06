@@ -79,3 +79,10 @@ polygon like `[[0,0],[1,0],[2,0],[2,1],[0,1]]` still triangulates cleanly. The
 consequence is that the *order* of the returned triangles is not stable across
 small changes to the input: it depends on which ear happened to be clip-able at
 each step. Rely on the count and the covered area, not on the sequence.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
